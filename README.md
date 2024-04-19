@@ -25,7 +25,7 @@ Installation
 Clone this repository to your local machine to get started:
 
 
-git clone https://yourrepositorylink.com
+git clone [https://github.com/moscolitos/tetris-pygame/]
 cd pygame-tetris
 
 
