@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr 18 16:04:43 2024
+Created on Wed Apr 17 16:04:43 2024
 
 @author: Mosco
 
@@ -124,6 +124,23 @@ class Tetromino:
         self.color = random.choice([(0, 255, 0), (255, 0, 0), (0, 0, 255), (255, 120, 0)])
         self.rotation = 0
 
+    def draw_ghost(self):
+        """
+        Draws the ghost Tetromino indicating where the current piece will land.
+        """
+        ghost_y = self.y
+        while not self.check_collision(self.x, ghost_y + TILE_SIZE, self.rotation):
+            ghost_y += TILE_SIZE
+        for i, row in enumerate(self.shape[self.rotation % len(self.shape)]):
+            for j, cell in enumerate(row):
+                if cell == 1:
+                    pygame.draw.rect(
+                        screen, 
+                        self.color + (128,),  # Lighter color or semi-transparent
+                        (self.x + j * TILE_SIZE, ghost_y + i * TILE_SIZE, TILE_SIZE, TILE_SIZE),
+                        1  # Draw only the border for a ghost-like effect
+                    )
+
     def draw(self):
         """
         Draws the Tetromino on the screen according to its current position and rotation.
@@ -138,6 +155,7 @@ class Tetromino:
                         0
                     )
 
+        self.draw_ghost()  # Call to draw the ghost piece
     def move(self, dx, dy):
         """
         Attempts to move the Tetromino by dx, dy. Returns True if movement was successful, False if blocked.
